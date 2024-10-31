@@ -17,8 +17,8 @@ const options = {
   resizable: false,
 
   ...(!DEBUG ? {
-    width: 418, // width and height are
-    height: 507, // also defined in main.css
+    width: 378, // width and height are also defined in main.css
+    height: 467,
     transparent: true,
     frame: false,
   } : {
@@ -65,34 +65,35 @@ app.disableHardwareAcceleration();
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
   createWindow();
+  if (!mainWindow) return
 
-  if (mainWindow) {
-    globalShortcut.register('Alt+1', () => {
-      mainWindow.webContents.send('cycle-stage', 1);
-    });
-  
-    globalShortcut.register('Alt+2', () => {
-      mainWindow.webContents.send('cycle-stage', 2);
-    });
-  
-    globalShortcut.register('Alt+3', () => {
-      mainWindow.webContents.send('cycle-stage', 3);
-    });
-  
-    globalShortcut.register('Alt+4', () => {
-      mainWindow.webContents.send('cycle-stage', 4);
-    });
-  
-    globalShortcut.register('Alt+0', () => {
-      mainWindow.webContents.send('reset-stages');
-    });
+  mainWindow.center();
 
-    mainWindow.webContents.on("ipc-message", (event, channel) => {
-      if (channel === "close-app") {
-        app.quit();
-      }
-    });
-  }
+  globalShortcut.register('Alt+1', () => {
+    mainWindow.webContents.send('cycle-stage', 1);
+  });
+
+  globalShortcut.register('Alt+2', () => {
+    mainWindow.webContents.send('cycle-stage', 2);
+  });
+
+  globalShortcut.register('Alt+3', () => {
+    mainWindow.webContents.send('cycle-stage', 3);
+  });
+
+  globalShortcut.register('Alt+4', () => {
+    mainWindow.webContents.send('cycle-stage', 4);
+  });
+
+  globalShortcut.register('Alt+0', () => {
+    mainWindow.webContents.send('reset-stages');
+  });
+
+  mainWindow.webContents.on("ipc-message", (event, channel) => {
+    if (channel === "close-app") {
+      app.quit();
+    }
+  });
 
   // On OS X it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.

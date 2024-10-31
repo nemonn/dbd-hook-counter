@@ -16,12 +16,21 @@ body {
   font-optical-sizing: auto;
   font-weight: 400;
   font-style: normal;
+
+  /* Enables moving the window */
+  -webkit-app-region: drag;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
-#app {
-  padding: 20px; /* Prevent ripple effect on stage 3 hook from overflowing */
-  
-  /* Container's dimensions when size and spacing are set to max values, plus padding */
-  width: 418px;
-  height: 507px;
+/* Prevent moving on interactable elements */
+.close-btn,
+.vue-slider {
+  -webkit-app-region: no-drag;
+}
+
+#app {  
+  /* Container's dimensions when size and spacing are set to max values */
+  width: 378px;
+  height: 467px;
 }

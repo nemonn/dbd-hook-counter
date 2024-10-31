@@ -29,22 +29,23 @@ const props = defineProps<Props>()
 
 <style>
 .player {
-  height: 50px;
+  height: var(--size);
   display: flex;
   justify-content: center;
   align-items: center;
   aspect-ratio: 1/1;
   position: relative;
   border-radius: 50%;
-  background-color: rgba(0,0,0,0.3);
+  background-color: rgba(0,0,0,calc(var(--opacity) / 100));
 }
 
 .player .border {
   position: absolute;
   inset: 0;
   z-index: 1;
-  fill: rgba(0,0,0,0.1);
+  fill: rgba(0,0,0,calc(var(--opacity) / 100 * 0.1 / 0.3));
   transition: fill 0.125s;
+  overflow: hidden;
 }
 
 .player .stage {
@@ -54,7 +55,7 @@ const props = defineProps<Props>()
 }
 
 .player .stage svg {
-  height: 30px;
+  height: calc(60 * var(--size) / 100);
   fill: rgba(255,255,255,0);
   transition: fill 0.125s;
   stroke: white;
@@ -76,8 +77,9 @@ const props = defineProps<Props>()
 
 .player[data-stage="3"] .stage svg {
   fill: rgba(255,255,255,0.75);
-  height: 34px;
+  height: calc(68 * var(--size) / 100);
   stroke: none;
+  transform: translateX(-1%);
 }
 
 .player[data-stage="3"] .border {

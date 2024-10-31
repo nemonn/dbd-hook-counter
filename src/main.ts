@@ -1,7 +1,30 @@
 import { app, BrowserWindow, globalShortcut } from 'electron';
 import path from 'path';
 
-const DEBUG = false
+const DEBUG = false;
+
+const options = {
+  webPreferences: {
+    preload: path.join(__dirname, 'preload.js')
+  },
+
+  closable: true,
+  fullscreenable: false,
+  hasShadow: false,
+  maximizable: false,
+  minimizable: false,
+  movable: true,
+  resizable: false,
+
+  ...(!DEBUG ? {
+    width: 418, // width and height are
+    height: 507, // also defined in main.css
+    transparent: true,
+    frame: false,
+  } : {
+    backgroundColor: "black"
+  })
+};
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
@@ -11,43 +34,31 @@ if (require('electron-squirrel-startup')) {
 let mainWindow: BrowserWindow | undefined;
 
 const createWindow = () => {
-  // Create the browser window.
-  mainWindow = new BrowserWindow({
-    webPreferences: {
-      preload: path.join(__dirname, 'preload.js')
-    },
-    ...(!DEBUG ? {
-      transparent: true,
-      frame: false,
-      width: 100,
-      height: 279,
-      x: 0,
-      y: 0
-    } : {
-      backgroundColor: "gray",
-      width: 800,
-      height: 600
-    })
-  });
+  // Create the browser window
+  mainWindow = new BrowserWindow(options);
 
+  // Disable keyboard reload shortcuts
+  mainWindow.removeMenu();
+
+  // Set always on top
   if (!DEBUG) {
     mainWindow.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
     mainWindow.setAlwaysOnTop(true, 'screen-saver', 1);
-    mainWindow.setIgnoreMouseEvents(true)
+    // mainWindow.setIgnoreMouseEvents(true)
   }
 
-  // and load the index.html of the app.
+  // Load index.html
   if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
     mainWindow.loadURL(MAIN_WINDOW_VITE_DEV_SERVER_URL);
   } else {
     mainWindow.loadFile(path.join(__dirname, `../renderer/${MAIN_WINDOW_VITE_NAME}/index.html`));
   }
 
-  // Open the DevTools.
+  // Open dev tools
   if (DEBUG) mainWindow.webContents.openDevTools();
 };
 
-app.disableHardwareAcceleration()
+app.disableHardwareAcceleration();
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
@@ -55,35 +66,27 @@ app.disableHardwareAcceleration()
 app.whenReady().then(() => {
   createWindow();
 
-  globalShortcut.register('Alt+1', () => {
-    if (mainWindow) {
+  if (mainWindow) {
+    globalShortcut.register('Alt+1', () => {
       mainWindow.webContents.send('cycle-stage', 1);
-    }
-  });
-
-  globalShortcut.register('Alt+2', () => {
-    if (mainWindow) {
+    });
+  
+    globalShortcut.register('Alt+2', () => {
       mainWindow.webContents.send('cycle-stage', 2);
-    }
-  });
-
-  globalShortcut.register('Alt+3', () => {
-    if (mainWindow) {
+    });
+  
+    globalShortcut.register('Alt+3', () => {
       mainWindow.webContents.send('cycle-stage', 3);
-    }
-  });
-
-  globalShortcut.register('Alt+4', () => {
-    if (mainWindow) {
+    });
+  
+    globalShortcut.register('Alt+4', () => {
       mainWindow.webContents.send('cycle-stage', 4);
-    }
-  });
-
-  globalShortcut.register('Alt+0', () => {
-    if (mainWindow) {
+    });
+  
+    globalShortcut.register('Alt+0', () => {
       mainWindow.webContents.send('reset-stages');
-    }
-  });
+    });
+  }
 
   // On OS X it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.

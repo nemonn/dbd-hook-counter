@@ -1,0 +1,27 @@
+@font-face {
+  font-family: "Inter";
+  src: url("../assets/Inter.ttf");
+  font-weight: 400;
+}
+
+* {
+  box-sizing: border-box;
+  
+}
+
+body {
+  margin: 0;
+  overflow: hidden;
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+#app {
+  padding: 20px; /* Prevent ripple effect on stage 3 hook from overflowing */
+  
+  /* Container's dimensions when size and spacing are set to max values, plus padding */
+  width: 418px;
+  height: 507px;
+}

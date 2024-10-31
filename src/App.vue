@@ -16,6 +16,8 @@
     <Controls
       v-model:size="ui.size"
       v-model:spacing="ui.spacing"
+      @update:size="storage.set('size', $event)"
+      @update:spacing="storage.set('spacing', $event)"
     />
   </div>
 </template>
@@ -25,14 +27,9 @@ import { reactive } from "vue"
 import Player from "./components/Player.vue"
 import Controls from "./components/Controls.vue"
 import CloseButton from "./components/CloseButton.vue"
+import { useUI, storage } from "./composables/ui"
 
-const DEFAULT_UI = {
-  size: 50,
-  spacing: 13,
-  opacity: 30
-}
-
-const ui = reactive({ ...DEFAULT_UI })
+const ui = useUI()
 
 const players = reactive<{ [player: string]: number }>({
   1: 3,

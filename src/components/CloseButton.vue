@@ -21,15 +21,15 @@ const emit = defineEmits<Emits>()
 <style>
 .close-btn {
   position: absolute;
-  right: 5px;
-  top: 5px;
+  right: 6px;
+  top: 6px;
   background-color: transparent;
   border: none;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 24px;
-  height: 24px;
+  width: 22px;
+  height: 22px;
   color: whitesmoke;
   transition: all 0.125s;
   border-radius: 50%;
@@ -62,7 +62,7 @@ const emit = defineEmits<Emits>()
 }
 
 .close-btn:hover::before {
-  transform: scale(1.15);
+  transform: scale(1.2);
   background: white;
   border-color: white;
 }
@@ -74,7 +74,7 @@ const emit = defineEmits<Emits>()
 }
 
 .close-btn:active::before {
-  transform: scale(1.05);
+  transform: scale(1.1);
   background: white;
   border-color: white;
 }

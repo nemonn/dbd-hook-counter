@@ -8,6 +8,7 @@
           :min="42"
           :max="58"
           tooltip="none"
+          adsorb
           @update:modelValue="emit('update:size', $event)"
         />
       </div>
@@ -20,6 +21,7 @@
           :min="3"
           :max="65"
           tooltip="none"
+          adsorb
           @update:modelValue="emit('update:spacing', $event)"
         />
       </div>

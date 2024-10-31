@@ -3,6 +3,8 @@
     class="container"
     :style="`--size: ${ui.size}px; --spacing: ${ui.spacing}px; --opacity: ${ui.opacity};`"
   >
+    <CloseButton @click="close()"/>
+
     <div class="players">
       <Player
         v-for="(stage, player) in players"
@@ -23,6 +25,7 @@
 import { reactive } from "vue"
 import Player from "./components/Player.vue"
 import Controls from "./components/Controls.vue"
+import CloseButton from "./components/CloseButton.vue"
 
 const DEFAULT_UI = {
   size: 50,
@@ -59,6 +62,12 @@ if (window.electron) {
   window.electron.ipcRenderer.on("reset-stages", () => {
     reset()
   })
+}
+
+function close () {
+  if (window.electron) {
+    window.electron.ipcRenderer.send("close-app")
+  }
 }
 
 </script>

@@ -86,6 +86,12 @@ app.whenReady().then(() => {
     globalShortcut.register('Alt+0', () => {
       mainWindow.webContents.send('reset-stages');
     });
+
+    mainWindow.webContents.on("ipc-message", (event, channel) => {
+      if (channel === "close-app") {
+        app.quit();
+      }
+    });
   }
 
   // On OS X it's common to re-create a window in the app when the

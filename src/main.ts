@@ -48,8 +48,6 @@ const createWindow = () => {
     
     // Store window position when it is moved
     mainWindow.on("moved", onWindowMove);
-
-    // mainWindow.setIgnoreMouseEvents(true)
   }
 
   // Load index.html
@@ -110,6 +108,8 @@ app.whenReady().then(() => {
     mainWindow.webContents.send("reset-stages");
   });
 
+  globalShortcut.register("Alt+X", () => lock());
+
   mainWindow.webContents.on("ipc-message", (event, channel, data) => onEvent(channel, data));
 
   // On OS X it's common to re-create a window in the app when the
@@ -134,6 +134,13 @@ app.on("window-all-closed", () => {
     app.quit();
   }
 });
+
+let locked = false;
+function lock () {
+  locked = !locked;
+  mainWindow.setIgnoreMouseEvents(locked);
+  mainWindow.webContents.send("lock", locked);
+}
 
 function onEvent (type: string, data: any) {
   if (type === "close-app") {

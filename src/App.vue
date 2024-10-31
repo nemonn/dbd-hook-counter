@@ -1,10 +1,9 @@
 <template>
   <div
     class="container"
+    :class="{'locked': ui.locked}"
     :style="`--size: ${ui.size}px; --spacing: ${ui.spacing}px; --opacity: ${ui.opacity};`"
   >
-    <CloseButton @click="close()"/>
-
     <div class="players">
       <Player
         v-for="(stage, player) in players"
@@ -13,12 +12,16 @@
       />
     </div>
 
-    <Controls
-      v-model:size="ui.size"
-      v-model:spacing="ui.spacing"
-      @update:size="storage.set('size', $event)"
-      @update:spacing="storage.set('spacing', $event)"
-    />
+    <template v-if="!ui.locked">
+      <Controls
+        v-model:size="ui.size"
+        v-model:spacing="ui.spacing"
+        @update:size="storage.set('size', $event)"
+        @update:spacing="storage.set('spacing', $event)"
+      />
+
+      <CloseButton @click="close()"/>
+    </template>
   </div>
 </template>
 
@@ -58,6 +61,10 @@ if (window.electron) {
   window.electron.ipcRenderer.on("reset-stages", () => {
     reset()
   })
+
+  window.electron.ipcRenderer.on("lock", (event, state) => {
+    ui.locked = state
+  })
 }
 
 function close () {
@@ -96,5 +103,9 @@ function close () {
   background-color: rgba(15, 15, 15, 0.9);
   border-top-right-radius: var(--border-radius);
   border-bottom-right-radius: var(--border-radius);
+}
+
+.locked .players {
+  background-color: transparent;
 }
 </style>

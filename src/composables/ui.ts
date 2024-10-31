@@ -3,7 +3,8 @@ import { reactive } from "vue"
 export const defaults = {
   size: 50,
   spacing: 13,
-  opacity: 30
+  opacity: 30,
+  locked: false
 }
 
 function set (key: string, value: number) {
@@ -24,7 +25,8 @@ export function useUI () {
   return reactive({
     size: get("size") || defaults.size,
     spacing: get("spacing") || defaults.spacing,
-    opacity: defaults.opacity
+    opacity: defaults.opacity,
+    locked: defaults.locked
   })
 }
 

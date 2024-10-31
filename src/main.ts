@@ -1,12 +1,12 @@
-import { app, BrowserWindow, globalShortcut } from 'electron';
-import path from 'path';
-import settings from 'electron-settings';
+import { app, BrowserWindow, globalShortcut } from "electron";
+import path from "path";
+import settings from "electron-settings";
 
 const DEBUG = false;
 
 const options = {
   webPreferences: {
-    preload: path.join(__dirname, 'preload.js')
+    preload: path.join(__dirname, "preload.js")
   },
 
   closable: true,
@@ -28,7 +28,7 @@ const options = {
 };
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling
-if (require('electron-squirrel-startup')) {
+if (require("electron-squirrel-startup")) {
   app.quit();
 }
 
@@ -44,10 +44,10 @@ const createWindow = () => {
   if (!DEBUG) {
     // Set always on top
     mainWindow.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
-    mainWindow.setAlwaysOnTop(true, 'screen-saver', 1);
+    mainWindow.setAlwaysOnTop(true, "screen-saver", 1);
     
-    // Handle window being moved
-    mainWindow.on("moved", onMoved);
+    // Store window position when it is moved
+    mainWindow.on("moved", onWindowMove);
 
     // mainWindow.setIgnoreMouseEvents(true)
   }
@@ -61,7 +61,25 @@ const createWindow = () => {
 
   // Open dev tools
   if (DEBUG) mainWindow.webContents.openDevTools();
+
+  // Open window at last position
+  setWindowPosition();
 };
+
+const onWindowMove = () => {
+  const [ x, y ] = mainWindow.getPosition()
+  settings.set("position", { x, y });
+}
+
+const setWindowPosition = async () => {
+  const position = (await settings.get("position")) as { x: number, y: number } | undefined;
+  
+  if (position) {
+    mainWindow.setPosition(position.x, position.y);
+  } else {
+    mainWindow.center();
+  }
+}
 
 app.disableHardwareAcceleration();
 
@@ -72,44 +90,38 @@ app.whenReady().then(() => {
   createWindow();
   if (!mainWindow) return
 
-  setWindowPosition();
-
-  globalShortcut.register('Alt+1', () => {
-    mainWindow.webContents.send('cycle-stage', 1);
+  globalShortcut.register("Alt+1", () => {
+    mainWindow.webContents.send("cycle-stage", 1);
   });
 
-  globalShortcut.register('Alt+2', () => {
-    mainWindow.webContents.send('cycle-stage', 2);
+  globalShortcut.register("Alt+2", () => {
+    mainWindow.webContents.send("cycle-stage", 2);
   });
 
-  globalShortcut.register('Alt+3', () => {
-    mainWindow.webContents.send('cycle-stage', 3);
+  globalShortcut.register("Alt+3", () => {
+    mainWindow.webContents.send("cycle-stage", 3);
   });
 
-  globalShortcut.register('Alt+4', () => {
-    mainWindow.webContents.send('cycle-stage', 4);
+  globalShortcut.register("Alt+4", () => {
+    mainWindow.webContents.send("cycle-stage", 4);
   });
 
-  globalShortcut.register('Alt+0', () => {
-    mainWindow.webContents.send('reset-stages');
+  globalShortcut.register("Alt+0", () => {
+    mainWindow.webContents.send("reset-stages");
   });
 
-  mainWindow.webContents.on("ipc-message", (event, channel) => {
-    if (channel === "close-app") {
-      app.quit();
-    }
-  });
+  mainWindow.webContents.on("ipc-message", (event, channel, data) => onEvent(channel, data));
 
   // On OS X it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
-  app.on('activate', () => {
+  app.on("activate", () => {
     if (BrowserWindow.getAllWindows().length === 0) {
       createWindow();
     }
   });
 });
 
-app.on('will-quit', () => {
+app.on("will-quit", () => {
   // Unregister all shortcuts.
   globalShortcut.unregisterAll();
 });
@@ -117,24 +129,14 @@ app.on('will-quit', () => {
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
 // explicitly with Cmd + Q.
-app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
+app.on("window-all-closed", () => {
+  if (process.platform !== "darwin") {
     app.quit();
   }
 });
 
-const onMoved = () => {
-  // Store window position
-  const [ x, y ] = mainWindow.getPosition()
-  settings.set('position', { x, y });
-}
-
-const setWindowPosition = async () => {
-  const position = (await settings.get("position")) as { x: number, y: number } | undefined;
-  
-  if (position) {
-    mainWindow.setPosition(position.x, position.y);
-  } else {
-    mainWindow.center();
+function onEvent (type: string, data: any) {
+  if (type === "close-app") {
+    app.quit();
   }
 }

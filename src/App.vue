@@ -16,7 +16,6 @@
     <Controls
       v-model:size="ui.size"
       v-model:spacing="ui.spacing"
-      v-model:opacity="ui.opacity"
     />
   </div>
 </template>

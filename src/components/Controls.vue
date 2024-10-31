@@ -52,13 +52,11 @@ import Slider from "vue-3-slider-component"
 interface Props {
   size: number
   spacing: number
-  opacity: number
 }
 
 interface Emits {
   (e: "update:size", v: number): void
   (e: "update:spacing", v: number): void
-  (e: "update:opacity", v: number): void
 }
 
 const props = defineProps<Props>()

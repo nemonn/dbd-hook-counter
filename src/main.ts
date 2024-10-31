@@ -1,5 +1,6 @@
 import { app, BrowserWindow, globalShortcut } from 'electron';
 import path from 'path';
+import settings from 'electron-settings';
 
 const DEBUG = false;
 
@@ -26,7 +27,7 @@ const options = {
   })
 };
 
-// Handle creating/removing shortcuts on Windows when installing/uninstalling.
+// Handle creating/removing shortcuts on Windows when installing/uninstalling
 if (require('electron-squirrel-startup')) {
   app.quit();
 }
@@ -40,10 +41,14 @@ const createWindow = () => {
   // Disable keyboard reload shortcuts
   mainWindow.removeMenu();
 
-  // Set always on top
   if (!DEBUG) {
+    // Set always on top
     mainWindow.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
     mainWindow.setAlwaysOnTop(true, 'screen-saver', 1);
+    
+    // Handle window being moved
+    mainWindow.on("moved", onMoved);
+
     // mainWindow.setIgnoreMouseEvents(true)
   }
 
@@ -67,7 +72,7 @@ app.whenReady().then(() => {
   createWindow();
   if (!mainWindow) return
 
-  mainWindow.center();
+  setWindowPosition();
 
   globalShortcut.register('Alt+1', () => {
     mainWindow.webContents.send('cycle-stage', 1);
@@ -118,5 +123,18 @@ app.on('window-all-closed', () => {
   }
 });
 
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and import them here.
+const onMoved = () => {
+  // Store window position
+  const [ x, y ] = mainWindow.getPosition()
+  settings.set('position', { x, y });
+}
+
+const setWindowPosition = async () => {
+  const position = (await settings.get("position")) as { x: number, y: number } | undefined;
+  
+  if (position) {
+    mainWindow.setPosition(position.x, position.y);
+  } else {
+    mainWindow.center();
+  }
+}

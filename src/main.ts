@@ -1,6 +1,7 @@
 import { app, BrowserWindow, globalShortcut } from "electron";
 import path from "path";
 import settings from "electron-settings";
+import { createTray } from "./tray";
 
 const DEBUG = false;
 

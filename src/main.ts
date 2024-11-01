@@ -11,18 +11,18 @@ const options = {
 
   closable: true,
   fullscreenable: false,
-  hasShadow: false,
-  maximizable: false,
-  minimizable: false,
   movable: true,
-  resizable: false,
-  focusable: false,
-  skipTaskbar: true,
-  alwaysOnTop: true,
-
+  
   ...(!DEBUG ? {
     width: 378, // width and height are also defined in main.css
     height: 467,
+    hasShadow: false,
+    maximizable: false,
+    minimizable: false,
+    resizable: false,
+    alwaysOnTop: true,
+    focusable: false,
+    skipTaskbar: true,
     transparent: true,
     frame: false,
   } : {
@@ -122,6 +122,9 @@ app.whenReady().then(() => {
       createWindow();
     }
   });
+
+  // Display app in tray
+  createTray();
 });
 
 app.on("will-quit", () => {

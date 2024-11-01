@@ -45,7 +45,6 @@ const createWindow = () => {
     // Set always on top
     mainWindow.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
     mainWindow.setAlwaysOnTop(true, "screen-saver", 1);
-    mainWindow.on("blur", () => mainWindow.setAlwaysOnTop(true));
     
     // Store window position when it is moved
     mainWindow.on("moved", onWindowMove);

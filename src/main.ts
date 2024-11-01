@@ -16,6 +16,9 @@ const options = {
   minimizable: false,
   movable: true,
   resizable: false,
+  focusable: false,
+  skipTaskbar: true,
+  alwaysOnTop: true,
 
   ...(!DEBUG ? {
     width: 378, // width and height are also defined in main.css

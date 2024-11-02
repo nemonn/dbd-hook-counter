@@ -131,4 +131,26 @@ const emit = defineEmits<Emits>()
 .controls .vue-slider-dot-handle-focus {
   box-shadow: none;
 }
+
+.controls .vue-slider-dot-tooltip-inner {
+  background-color: rgb(50,50,50);
+  border-color: rgb(50,50,50);
+  border-radius: 4px;
+  min-width: 10px;
+  font-size: 13px;
+}
+
+.controls .vue-slider-dot-tooltip-top {
+  top: -8px;
+}
+
+.controls .vue-slider-dot-tooltip-show {
+  /* Fixes tooltip being visible until another element is focused. */
+  visibility: hidden;
+}
+
+.controls .vue-slider-dot:active .vue-slider-dot-tooltip {
+  /* Fixes tooltip not visible when dragging and not hovering over dot (side effect of the fix above). */
+  visibility: visible;
+}
 </style>

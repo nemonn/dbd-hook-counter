@@ -1,7 +1,7 @@
-import { app, BrowserWindow, globalShortcut } from "electron";
+import { app, BrowserWindow, globalShortcut, Tray } from "electron";
 import path from "path";
 import settings from "electron-settings";
-import { createTray } from "./tray";
+import { createTray, buildMenu } from "./tray";
 import { APP_SIZE } from "./helpers/ui";
 
 const DEBUG = false;
@@ -86,6 +86,8 @@ const setWindowPosition = async () => {
 
 app.disableHardwareAcceleration();
 
+let tray: Tray | undefined
+
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
@@ -126,7 +128,7 @@ app.whenReady().then(() => {
   });
 
   // Display app in tray
-  createTray();
+  tray = createTray();
 });
 
 app.on("will-quit", () => {
@@ -143,14 +145,16 @@ app.on("window-all-closed", () => {
   }
 });
 
-let locked = false;
-function lock () {
-  locked = !locked;
-  mainWindow.setIgnoreMouseEvents(locked);
-  mainWindow.webContents.send("lock", locked);
+export let isLocked = false;
+
+export const lock = () => {
+  isLocked = !isLocked;
+  mainWindow.setIgnoreMouseEvents(isLocked);
+  mainWindow.webContents.send("lock", isLocked);
+  tray.setContextMenu(buildMenu())
 }
 
-function onEvent (type: string, data: any) {
+const onEvent = (type: string, data: any) => {
   if (type === "close-app") {
     app.quit();
   }

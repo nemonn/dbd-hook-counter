@@ -25,7 +25,8 @@ body {
 
 /* Prevent moving on interactable elements */
 .close-btn,
-.vue-slider {
+.vue-slider,
+.vue-slider-dot {
   -webkit-app-region: no-drag;
 }
 

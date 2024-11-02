@@ -30,7 +30,6 @@ body {
 }
 
 #app {  
-  /* Container's dimensions when size and spacing are set to max values */
-  width: 378px;
-  height: 467px;
+  width: 100%;
+  height: 100vh;
 }

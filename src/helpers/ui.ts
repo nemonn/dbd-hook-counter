@@ -1,5 +1,11 @@
 import { reactive } from "vue"
 
+// Container's dimensions when size and spacing are set to max values
+export const APP_SIZE = {
+  width: 370,
+  height: 354,
+}
+
 export const SIZE_OPTIONS = [36, 42, 50]
 export const MAX_SPACING = 38
 export const DEFAULTS = {

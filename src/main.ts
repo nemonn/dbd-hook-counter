@@ -2,6 +2,7 @@ import { app, BrowserWindow, globalShortcut } from "electron";
 import path from "path";
 import settings from "electron-settings";
 import { createTray } from "./tray";
+import { APP_SIZE } from "./helpers/ui";
 
 const DEBUG = false;
 
@@ -15,8 +16,8 @@ const options = {
   movable: true,
   
   ...(!DEBUG ? {
-    width: 378, // width and height are also defined in main.css
-    height: 467,
+    width: APP_SIZE.width,
+    height: APP_SIZE.height,
     hasShadow: false,
     maximizable: false,
     minimizable: false,

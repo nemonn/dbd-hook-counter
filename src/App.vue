@@ -21,8 +21,10 @@
       <Controls
         v-model:size="ui.size"
         v-model:spacing="ui.spacing"
+        v-model:opacity="ui.opacity"
         @update:size="storage.set('size', $event)"
         @update:spacing="storage.set('spacing', $event)"
+        @update:opacity="storage.set('opacity', $event)"
       />
 
       <CloseButton @click="close()"/>

@@ -33,7 +33,7 @@ export function useUI () {
   return reactive({
     size: get("size") || DEFAULTS.size,
     spacing: get("spacing") || DEFAULTS.spacing,
-    opacity: DEFAULTS.opacity,
+    opacity: get("opacity") || DEFAULTS.opacity,
     locked: DEFAULTS.locked
   })
 }

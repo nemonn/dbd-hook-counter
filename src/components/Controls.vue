@@ -25,6 +25,18 @@
         />
       </div>
 
+      <div class="controls__section">
+        <label>Background</label>
+        <Slider
+          :model-value="props.opacity"
+          :dot-size="14"
+          :min="0"
+          :max="100"
+          adsorb
+          @update:modelValue="emit('update:opacity', $event)"
+        />
+      </div>
+
       <div class="controls__divider"/>
 
       <div class="controls__section">
@@ -52,11 +64,13 @@ import { SIZE_OPTIONS, MAX_SPACING } from "../helpers/ui"
 interface Props {
   size: number
   spacing: number
+  opacity: number
 }
 
 interface Emits {
   (e: "update:size", v: number): void
   (e: "update:spacing", v: number): void
+  (e: "update:opacity", v: number): void
 }
 
 const props = defineProps<Props>()

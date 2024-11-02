@@ -2,7 +2,12 @@
   <div
     class="container"
     :class="{'locked': ui.locked}"
-    :style="`--size: ${ui.size}px; --spacing: ${ui.spacing}px; --opacity: ${ui.opacity};`"
+    :style="`
+      --size: ${ui.size}px;
+      --default-size: ${DEFAULTS.size}px;
+      --spacing: ${ui.spacing}px;
+      --opacity: ${ui.opacity};`
+    "
   >
     <div class="players">
       <Player
@@ -30,7 +35,7 @@ import { reactive } from "vue"
 import Player from "./components/Player.vue"
 import Controls from "./components/Controls.vue"
 import CloseButton from "./components/CloseButton.vue"
-import { useUI, storage } from "./composables/ui"
+import { useUI, storage, DEFAULTS } from "./helpers/ui"
 
 const ui = useUI()
 

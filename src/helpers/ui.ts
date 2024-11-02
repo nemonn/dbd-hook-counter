@@ -1,6 +1,6 @@
 import { reactive } from "vue"
 
-export const defaults = {
+export const DEFAULTS = {
   size: 50,
   spacing: 13,
   opacity: 30,
@@ -23,10 +23,10 @@ function get (key: string): number | null {
 
 export function useUI () {
   return reactive({
-    size: get("size") || defaults.size,
-    spacing: get("spacing") || defaults.spacing,
-    opacity: defaults.opacity,
-    locked: defaults.locked
+    size: get("size") || DEFAULTS.size,
+    spacing: get("spacing") || DEFAULTS.spacing,
+    opacity: DEFAULTS.opacity,
+    locked: DEFAULTS.locked
   })
 }
 

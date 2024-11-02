@@ -31,9 +31,9 @@ function get (key: string): number | null {
 
 export function useUI () {
   return reactive({
-    size: get("size") || DEFAULTS.size,
-    spacing: get("spacing") || DEFAULTS.spacing,
-    opacity: get("opacity") || DEFAULTS.opacity,
+    size: get("size") ?? DEFAULTS.size,
+    spacing: get("spacing") ?? DEFAULTS.spacing,
+    opacity: get("opacity") ?? DEFAULTS.opacity,
     locked: DEFAULTS.locked
   })
 }

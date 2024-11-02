@@ -42,9 +42,9 @@ import { useUI, storage, DEFAULTS } from "./helpers/ui"
 const ui = useUI()
 
 const players = reactive<{ [player: string]: number }>({
-  1: 3,
-  2: 2,
-  3: 1,
+  1: 0,
+  2: 0,
+  3: 0,
   4: 0
 })
 

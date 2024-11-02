@@ -37,6 +37,9 @@ if (require("electron-squirrel-startup")) {
   app.quit();
 }
 
+// Is locked in place
+export let isLocked = false;
+
 let mainWindow: BrowserWindow | undefined;
 
 const createWindow = () => {
@@ -54,6 +57,8 @@ const createWindow = () => {
     // Store window position when it is moved
     mainWindow.on("moved", onWindowMove);
   }
+
+  if (isLocked) mainWindow.setIgnoreMouseEvents(true);
 
   // Load index.html
   if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
@@ -144,8 +149,6 @@ app.on("window-all-closed", () => {
     app.quit();
   }
 });
-
-export let isLocked = false;
 
 export const lock = () => {
   isLocked = !isLocked;

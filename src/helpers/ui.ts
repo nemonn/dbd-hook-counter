@@ -1,5 +1,7 @@
 import { reactive } from "vue"
 
+export const SIZE_OPTIONS = [36, 42, 50]
+export const MAX_SPACING = 38
 export const DEFAULTS = {
   size: 50,
   spacing: 13,

@@ -5,8 +5,7 @@
         <Slider
           :model-value="props.size"
           :dot-size="14"
-          :min="42"
-          :max="58"
+          :data="SIZE_OPTIONS"
           tooltip="none"
           adsorb
           @update:modelValue="emit('update:size', $event)"
@@ -18,8 +17,8 @@
         <Slider
           :model-value="props.spacing"
           :dot-size="14"
-          :min="3"
-          :max="65"
+          :min="0"
+          :max="MAX_SPACING"
           tooltip="none"
           adsorb
           @update:modelValue="emit('update:spacing', $event)"
@@ -48,6 +47,7 @@
 <script setup lang="ts">
 import KeyCombo from './KeyCombo.vue'
 import Slider from "vue-3-slider-component"
+import { SIZE_OPTIONS, MAX_SPACING } from "../helpers/ui"
 
 interface Props {
   size: number

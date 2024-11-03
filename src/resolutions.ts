@@ -8,6 +8,12 @@ interface Resolutions {
 }
 
 export const resolutions: Resolutions = {
+  "2560x1440": {
+    "size": 73,
+    "spacing": 45,
+    "left": 19,
+    "top": 569
+  },
   "1920x1080": {
     "size": 50,
     "spacing": 38,

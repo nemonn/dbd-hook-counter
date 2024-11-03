@@ -32,7 +32,7 @@ const players = reactive<{ [player: string]: number }>({
 
 function getUi () {
   const resolution = `${screen.width}x${screen.height}`
-  const preset = resolutions[resolution]
+  const preset = resolutions[resolution] || resolutions._default
 
   return {
     size: preset.size,

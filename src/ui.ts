@@ -1,9 +1,7 @@
-import { app, screen, dialog } from "electron"
+import { screen, dialog } from "electron"
 import { resolutions } from "./resolutions";
 
 interface UI {
-  screenWidth: number
-  screenHeight: number
   width: number
   height: number
   left: number
@@ -13,8 +11,6 @@ interface UI {
 }
 
 export const ui: UI = {
-  screenWidth: 0,
-  screenHeight: 0,
   width: 0,
   height: 0,
   left: 0,
@@ -26,15 +22,13 @@ export const ui: UI = {
 export function createUI () {
   const { width, height } = screen.getPrimaryDisplay().size
   const resolution = `${width}x${height}`
-  const preset = resolutions[resolution]
+  let preset = resolutions[resolution]
   
   if (!preset) {
-    app.quit()
-    showResolutionError(resolution)
+    showResolutionError(resolution)    
+    preset = resolutions._default
   }
 
-  ui.screenWidth = width,
-  ui.screenHeight = height,
   ui.width = preset.size,
   ui.height = preset.size * 4 + preset.spacing * 3,
   ui.left = preset.left,
@@ -49,6 +43,7 @@ function showResolutionError (resolution: string) {
   let supported = ""
   
   Object.keys(resolutions).forEach(key => {
+    if (key === "_default") return
     supported += `
 - ${key}`
   })

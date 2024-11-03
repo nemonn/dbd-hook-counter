@@ -37,9 +37,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "electron-settings": "^4.0.4",
     "electron-squirrel-startup": "^1.0.1",
-    "vue": "^3.5.7",
-    "vue-3-slider-component": "^1.0.1"
+    "vue": "^3.5.7"
   }
 }

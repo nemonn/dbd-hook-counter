@@ -1,23 +1,25 @@
-import { app, BrowserWindow, globalShortcut, Tray } from "electron";
+import { app, BrowserWindow, globalShortcut } from "electron";
 import path from "path";
-import settings from "electron-settings";
-import { createTray, buildMenu } from "./tray";
-import { APP_SIZE } from "./helpers/ui";
+import { createTray } from "./tray";
+import { ui, createUI } from "./ui";
 
 const DEBUG = false;
 
-const options = {
+const getOptions = () => ({
   webPreferences: {
-    preload: path.join(__dirname, "preload.js")
+    preload: path.join(__dirname, "preload.js"),
+    zoomFactor: 1.0
   },
 
   closable: true,
   fullscreenable: false,
-  movable: true,
   
   ...(!DEBUG ? {
-    width: APP_SIZE.width,
-    height: APP_SIZE.height,
+
+    width: ui.width,
+    height: ui.height,
+    x: ui.left,
+    y: ui.top,
     hasShadow: false,
     maximizable: false,
     minimizable: false,
@@ -27,38 +29,43 @@ const options = {
     skipTaskbar: true,
     transparent: true,
     frame: false,
+
   } : {
-    backgroundColor: "black"
+
+    backgroundColor: "rgb(30,30,30)"
+  
   })
-};
+});
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling
 if (require("electron-squirrel-startup")) {
   app.quit();
 }
 
-// Is locked in place
-export let isLocked = false;
-
 let mainWindow: BrowserWindow | undefined;
 
 const createWindow = () => {
   // Create the browser window
-  mainWindow = new BrowserWindow(options);
+  mainWindow = new BrowserWindow(getOptions());
 
-  // Disable keyboard reload shortcuts
-  mainWindow.removeMenu();
+  if (DEBUG) {
 
-  if (!DEBUG) {
+    // Open dev tools
+    mainWindow.webContents.openDevTools();
+
+  } else {
+
     // Set always on top
     mainWindow.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
     mainWindow.setAlwaysOnTop(true, "screen-saver", 1);
     
-    // Store window position when it is moved
-    mainWindow.on("moved", onWindowMove);
-  }
+    // Disable pointer events
+    mainWindow.setIgnoreMouseEvents(true);
 
-  if (isLocked) mainWindow.setIgnoreMouseEvents(true);
+    // Disable keyboard reload shortcut
+    mainWindow.removeMenu();
+  
+  }
 
   // Load index.html
   if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
@@ -66,61 +73,44 @@ const createWindow = () => {
   } else {
     mainWindow.loadFile(path.join(__dirname, `../renderer/${MAIN_WINDOW_VITE_NAME}/index.html`));
   }
-
-  // Open dev tools
-  if (DEBUG) mainWindow.webContents.openDevTools();
-
-  // Open window at last position
-  setWindowPosition();
 };
 
-const onWindowMove = () => {
-  const [ x, y ] = mainWindow.getPosition()
-  settings.set("position", { x, y });
-}
-
-const setWindowPosition = async () => {
-  const position = (await settings.get("position")) as { x: number, y: number } | undefined;
-  
-  if (position) {
-    mainWindow.setPosition(position.x, position.y);
-  } else {
-    mainWindow.center();
-  }
-}
+// Disable UI scaling
+app.commandLine.appendSwitch('force-device-scale-factor', '1');
 
 app.disableHardwareAcceleration();
-
-let tray: Tray | undefined
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
+  createUI();
   createWindow();
   if (!mainWindow) return
 
   globalShortcut.register("Alt+1", () => {
-    mainWindow.webContents.send("cycle-stage", 1);
+    mainWindow.webContents.send("add-stage", 1);
   });
 
   globalShortcut.register("Alt+2", () => {
-    mainWindow.webContents.send("cycle-stage", 2);
+    mainWindow.webContents.send("add-stage", 2);
   });
 
   globalShortcut.register("Alt+3", () => {
-    mainWindow.webContents.send("cycle-stage", 3);
+    mainWindow.webContents.send("add-stage", 3);
   });
 
   globalShortcut.register("Alt+4", () => {
-    mainWindow.webContents.send("cycle-stage", 4);
+    mainWindow.webContents.send("add-stage", 4);
   });
 
   globalShortcut.register("Alt+0", () => {
     mainWindow.webContents.send("reset-stages");
   });
 
-  globalShortcut.register("Alt+X", () => lock());
+  globalShortcut.register("Alt+Escape", () => {
+    app.quit();
+  });
 
   mainWindow.webContents.on("ipc-message", (event, channel, data) => onEvent(channel, data));
 
@@ -133,7 +123,7 @@ app.whenReady().then(() => {
   });
 
   // Display app in tray
-  tray = createTray();
+  createTray();
 });
 
 app.on("will-quit", () => {
@@ -150,15 +140,8 @@ app.on("window-all-closed", () => {
   }
 });
 
-export const lock = () => {
-  isLocked = !isLocked;
-  mainWindow.setIgnoreMouseEvents(isLocked);
-  mainWindow.webContents.send("lock", isLocked);
-  tray.setContextMenu(buildMenu())
-}
-
-const onEvent = (type: string, data: any) => {
-  if (type === "close-app") {
+const onEvent = (event: string, data: any) => {
+  if (event === "close-app") {
     app.quit();
   }
 }

@@ -1,9 +1,3 @@
-@font-face {
-  font-family: "Inter";
-  src: url("../assets/Inter.ttf");
-  font-weight: 400;
-}
-
 * {
   box-sizing: border-box;
   
@@ -12,22 +6,6 @@
 body {
   margin: 0;
   overflow: hidden;
-  font-family: "Inter", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 400;
-  font-style: normal;
-
-  /* Enables moving the window */
-  -webkit-app-region: drag;
-  user-select: none;
-  -webkit-user-select: none;
-}
-
-/* Prevent moving on interactable elements */
-.close-btn,
-.vue-slider,
-.vue-slider-dot {
-  -webkit-app-region: no-drag;
 }
 
 #app {  

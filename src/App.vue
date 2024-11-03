@@ -1,12 +1,9 @@
 <template>
   <div
     class="container"
-    :class="{'locked': ui.locked}"
     :style="`
       --size: ${ui.size}px;
-      --default-size: ${DEFAULTS.size}px;
-      --spacing: ${ui.spacing}px;
-      --opacity: ${ui.opacity};`
+      --spacing: ${ui.spacing}px;`
     "
   >
     <div class="players">
@@ -16,30 +13,15 @@
         :stage
       />
     </div>
-
-    <template v-if="!ui.locked">
-      <Controls
-        v-model:size="ui.size"
-        v-model:spacing="ui.spacing"
-        v-model:opacity="ui.opacity"
-        @update:size="storage.set('size', $event)"
-        @update:spacing="storage.set('spacing', $event)"
-        @update:opacity="storage.set('opacity', $event)"
-      />
-
-      <CloseButton @click="close()"/>
-    </template>
   </div>
 </template>
 
 <script setup lang="ts">
 import { reactive } from "vue"
 import Player from "./components/Player.vue"
-import Controls from "./components/Controls.vue"
-import CloseButton from "./components/CloseButton.vue"
-import { useUI, storage, DEFAULTS } from "./helpers/ui"
+import { resolutions } from "./resolutions";
 
-const ui = useUI()
+const ui = reactive(getUi())
 
 const players = reactive<{ [player: string]: number }>({
   1: 0,
@@ -48,7 +30,17 @@ const players = reactive<{ [player: string]: number }>({
   4: 0
 })
 
-function cycleStage (player: string) {
+function getUi () {
+  const resolution = `${screen.width}x${screen.height}`
+  const preset = resolutions[resolution]
+
+  return {
+    size: preset.size,
+    spacing: preset.spacing
+  }
+}
+
+function addStage (player: string) {
   let stage = players[player] + 1
   if (stage > 3) stage = 0
   players[player] = stage
@@ -61,23 +53,13 @@ function reset () {
 }
 
 if (window.electron) {
-  window.electron.ipcRenderer.on("cycle-stage", (event, playerId) => {
-    cycleStage(playerId)
+  window.electron.ipcRenderer.on("add-stage", (event, playerId) => {
+    addStage(playerId)
   })
 
   window.electron.ipcRenderer.on("reset-stages", () => {
     reset()
   })
-
-  window.electron.ipcRenderer.on("lock", (event, state) => {
-    ui.locked = state
-  })
-}
-
-function close () {
-  if (window.electron) {
-    window.electron.ipcRenderer.send("close-app")
-  }
 }
 
 </script>
@@ -86,12 +68,7 @@ function close () {
 @import url(./main.css);
 
 .container {
-  position: relative;
-  display: inline-flex;
-  flex-flow: row nowrap;
-  justify-content: flex-start;
-  align-items: stretch;
-  --border-radius: 4px;
+  display: flex;
 }
 
 .players {
@@ -99,20 +76,8 @@ function close () {
   flex-flow: column nowrap;
   justify-content: flex-start;
   align-items: flex-start;
-  padding: 20px 25px;
   gap: var(--spacing);
-  background-color: rgba(20, 20, 20, 0.9);
-  border-top-left-radius: var(--border-radius);
-  border-bottom-left-radius: var(--border-radius);
-}
-
-.controls {
-  background-color: rgba(15, 15, 15, 0.9);
-  border-top-right-radius: var(--border-radius);
-  border-bottom-right-radius: var(--border-radius);
-}
-
-.locked .players {
-  background-color: transparent;
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
 }
 </style>

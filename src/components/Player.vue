@@ -1,17 +1,15 @@
 <template>
-  <div class="player-wrapper">
-    <div
-      class="player"
-      :data-stage="props.stage"
-    >
-      <div class="border">
-        <BorderIcon/>
-      </div>
+  <div
+    class="player"
+    :data-stage="props.stage"
+  >
+    <div class="border">
+      <BorderIcon/>
+    </div>
 
-      <div class="stage">
-        <SkullIcon v-if="props.stage === 3"/>
-        <HooksIcon v-else/>
-      </div>
+    <div class="stage">
+      <SkullIcon v-if="props.stage === 3"/>
+      <HooksIcon v-else/>
     </div>
   </div>
 </template>
@@ -30,31 +28,22 @@ const props = defineProps<Props>()
 </script>
 
 <style>
-.player-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  aspect-ratio: 1/1;
-  height: var(--default-size);
-}
-
 .player {
   height: var(--size);
   display: flex;
   justify-content: center;
   align-items: center;
   aspect-ratio: 1/1;
-  position: absolute;
+  position: relative;
   border-radius: 50%;
-  background-color: rgba(0,0,0,calc(var(--opacity) / 100));
+  background-color: rgba(0,0,0,0.3);
 }
 
 .player .border {
   position: absolute;
   inset: 0;
   z-index: 1;
-  fill: rgba(0,0,0,calc(var(--opacity) / 100 * 0.1 / 0.3));
+  fill: rgba(0,0,0,0.1);
   transition: fill 0.125s;
   overflow: hidden;
 }

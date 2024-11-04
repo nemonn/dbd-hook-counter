@@ -22,6 +22,13 @@ export const resolutions: Resolutions = {
     top: 429
   },
 
+  "1680x1050": {
+    size: 47,
+    spacing: 30,
+    left: 17,
+    top: 426
+  },
+
   _default: {
     size: 50,
     spacing: 13,

@@ -3,7 +3,7 @@ Keep track of hook stages in Dead by Daylight.
 
 ![Hook Counter](https://github.com/nemonn/dbd-hook-counter/blob/main/Screenshots/1.png)
 
-## [Download](https://github.com/nemonn/dbd-hook-counter/releases/download/v2.0.2/Hook.Counter.zip)
+## [Download](https://github.com/nemonn/dbd-hook-counter/releases/download/v2.1.0/Hook.Counter.zip)
 _Use **Windowed** or **Windowed Fullscreen** and **100%** HUD scale._
 
 ## How to use

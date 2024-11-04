@@ -1,5 +1,5 @@
 interface Resolutions {
-  [resoltion: string]: {
+  [resolution: string]: {
     size: number
     spacing: number
     left: number

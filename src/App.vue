@@ -2,9 +2,12 @@
   <div
     class="container"
     :style="`
+      --width: ${ui.width}px;
+      --height: ${ui.height}px;
       --size: ${ui.size}px;
-      --spacing: ${ui.spacing}px;`
-    "
+      --spacing: ${ui.spacing}px;
+      --top: ${ui.top}px;
+      --left: ${ui.left}px`"
   >
     <div class="players">
       <Player
@@ -19,7 +22,7 @@
 <script setup lang="ts">
 import { reactive } from "vue"
 import Player from "./components/Player.vue"
-import { resolutions } from "./resolutions";
+import { getUi } from "./ui"
 
 const ui = reactive(getUi())
 
@@ -29,16 +32,6 @@ const players = reactive<{ [player: string]: number }>({
   3: 0,
   4: 0
 })
-
-function getUi () {
-  const resolution = `${screen.width}x${screen.height}`
-  const preset = resolutions[resolution] || resolutions._default
-
-  return {
-    size: preset.size,
-    spacing: preset.spacing
-  }
-}
 
 function addStage (player: string) {
   let stage = players[player] + 1
@@ -68,16 +61,22 @@ if (window.electron) {
 @import url(./main.css);
 
 .container {
+  width: var(--width);
+  height: var(--height);
+  position: relative;
   display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .players {
-  display: inline-flex;
+  position: absolute;
+  display: flex;
   flex-flow: column nowrap;
   justify-content: flex-start;
   align-items: flex-start;
   gap: var(--spacing);
-  border-top-left-radius: 4px;
-  border-bottom-left-radius: 4px;
+  left: var(--left);
+  top: var(--top);
 }
 </style>

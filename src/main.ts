@@ -1,7 +1,6 @@
 import { app, BrowserWindow, globalShortcut } from "electron";
 import path from "path";
 import { createTray } from "./tray";
-import { ui, createUI } from "./ui";
 
 const DEBUG = false;
 
@@ -12,14 +11,10 @@ const getOptions = () => ({
   },
 
   closable: true,
-  fullscreenable: false,
   
   ...(!DEBUG ? {
 
-    width: ui.width,
-    height: ui.height,
-    x: ui.left,
-    y: ui.top,
+    fullscreen: true,
     hasShadow: false,
     maximizable: false,
     minimizable: false,
@@ -84,7 +79,6 @@ app.disableHardwareAcceleration();
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
-  createUI();
   createWindow();
   if (!mainWindow) return
 

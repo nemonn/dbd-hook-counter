@@ -3,7 +3,7 @@ Keep track of hook stages in Dead by Daylight.
 
 ![Hook Counter](https://github.com/nemonn/dbd-hook-counter/blob/main/Screenshots/1.png)
 
-## [Download](https://github.com/nemonn/dbd-hook-counter/releases/download/v2.0.0/Hook.Counter.zip)
+## [Download](https://github.com/nemonn/dbd-hook-counter/releases/download/v2.0.1/Hook.Counter.zip)
 _Use **Windowed** or **Windowed Fullscreen** in Dead by Daylight._
 
 ## How to use
@@ -17,6 +17,7 @@ _Use **Windowed** or **Windowed Fullscreen** in Dead by Daylight._
 ## Supported resolutions
 - 2560x1440
 - 1920x1080
+- 1680x1050
 
 _For other resolutions the counter will appear it the top left corner of your screen._
 

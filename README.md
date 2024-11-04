@@ -15,9 +15,21 @@ _Use **Windowed** or **Windowed Fullscreen** in Dead by Daylight._
 **Yes!** This is just an overlay, no different than taking notes on a piece of paper.
 
 ## Supported resolutions
-- 2560x1440
-- 1920x1080
-- 1680x1050
+- 3840 x 2160
+- 3200 x 1800
+- 3072 x 1728
+- 2560 x 1440
+- 2048 x 1536
+- 2048 x 1080
+- 1920 x 1200
+- 1920 x 1080
+- 1760 x 990
+- 1680 x 1050
+- 1600 x 1200
+- 1600 x 900
+- 1366 x 768
+- 1280 x 1024
+- 1280 x 720
 
 _For other resolutions the counter will appear it the top left corner of your screen._
 

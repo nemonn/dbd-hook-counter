@@ -25,7 +25,7 @@ export function createUI () {
   let preset = resolutions[resolution]
   
   if (!preset) {
-    showResolutionError(resolution)    
+    dialog.showErrorBox("Unsupported resolution", `${resolution} resolution is not supported.`)
     preset = resolutions._default
   }
 
@@ -37,21 +37,4 @@ export function createUI () {
   ui.spacing = preset.spacing
 
   return ui
-}
-
-function showResolutionError (resolution: string) {
-  let supported = ""
-  
-  Object.keys(resolutions).forEach(key => {
-    if (key === "_default") return
-    supported += `
-- ${key}`
-  })
-
-  dialog.showErrorBox(
-    `Unsupported resolution`,
-    `${resolution} resolution is not supported.
-
-Supported resolutions:${supported}`
-  )
 }

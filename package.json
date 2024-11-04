@@ -1,7 +1,7 @@
 {
   "name": "dbd-hook-counter",
   "productName": "Hook Counter",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Keep track of hook stages in Dead by Daylight.",
   "main": ".vite/build/main.js",
   "scripts": {

@@ -6,8 +6,9 @@
       --height: ${ui.height}px;
       --size: ${ui.size}px;
       --spacing: ${ui.spacing}px;
-      --top: ${ui.top}px;
-      --left: ${ui.left}px`"
+      --left: ${ui.left}px;
+      --bottom: ${ui.bottom}px;
+    `"
   >
     <div class="players">
       <Player
@@ -77,6 +78,6 @@ if (window.electron) {
   align-items: flex-start;
   gap: var(--spacing);
   left: var(--left);
-  top: var(--top);
+  bottom: var(--bottom);
 }
 </style>

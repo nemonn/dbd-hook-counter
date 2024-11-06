@@ -30,21 +30,23 @@ export function getUi () {
   })
 
   /*
-    FHD
+    FHD (100%)
     width: 1920
     height: 1080
     size: 50
     spacing: 38
     left: 16
-    top: 429 
+    bottom: 337
   */
+
+  const scale = 1
 
   return {
     width,
     height,
-    size: Math.round(height / 100 * 4.63),
-    spacing: Math.round(height / 100 * 3.52),
-    top: Math.round(height / 100 * 39.72),
-    left: Math.round(width / 100 * 0.83)
+    size: Math.round(height / 100 * 4.63 * scale),
+    spacing: Math.round(height / 100 * 3.52 * scale),
+    left: Math.round(width / 100 * 0.83 * scale),
+    bottom: Math.round(height / 100 * 31.2 * scale)
   }
 }

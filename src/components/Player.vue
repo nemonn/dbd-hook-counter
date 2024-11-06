@@ -59,7 +59,7 @@ const props = defineProps<Props>()
   fill: rgba(255,255,255,0);
   transition: fill 0.125s;
   stroke: white;
-  stroke-width: 50px;
+  stroke-width: 52;
   stroke-opacity: 0.15;
 }
 

@@ -1,5 +1,6 @@
 <template>
   <div
+    v-if="ui"
     class="container"
     :style="`
       --width: ${ui.width}px;
@@ -21,11 +22,12 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from "vue"
+import { reactive, ref } from "vue"
 import Player from "./components/Player.vue"
-import { getUi } from "./ui"
+import { getUi, UI } from "./helpers/ui"
+import on from "./helpers/on"
 
-const ui = reactive(getUi())
+const ui = ref<UI | undefined>()
 
 const players = reactive<{ [player: string]: number }>({
   1: 0,
@@ -46,15 +48,18 @@ function reset () {
   }
 }
 
-if (window.electron) {
-  window.electron.ipcRenderer.on("add-stage", (event, playerId) => {
-    addStage(playerId)
-  })
-
-  window.electron.ipcRenderer.on("reset-stages", () => {
-    reset()
-  })
+function onLoad ({ scale }: { scale: number }) {
+  ui.value = getUi({ scale })
 }
+
+function onScaleChange (scale: number) {
+  ui.value = getUi({ scale })
+}
+
+on("load", onLoad)
+on("add-stage", addStage)
+on("reset-stages", reset)
+on("scale-change", onScaleChange)
 
 </script>
 

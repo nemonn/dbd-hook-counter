@@ -1,6 +1,7 @@
 import { app, BrowserWindow, globalShortcut } from "electron";
 import path from "path";
-import { createTray } from "./tray";
+import { createTray, onScaleChange, createMenu } from "./tray";
+import { settings, loadSettings, setSetting, Scale } from "./settings";
 
 const DEBUG = false;
 
@@ -78,7 +79,9 @@ app.disableHardwareAcceleration();
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.whenReady().then(() => {
+app.whenReady().then(async () => {
+  await loadSettings();
+
   createWindow();
   if (!mainWindow) return
 
@@ -106,7 +109,13 @@ app.whenReady().then(() => {
     app.quit();
   });
 
-  mainWindow.webContents.on("ipc-message", (event, channel, data) => onEvent(channel, data));
+  mainWindow.webContents.on("did-finish-load", () => {
+    mainWindow.webContents.send("load", settings);
+  });
+
+  mainWindow.webContents.on("ipc-message", (event, channel, data) => {
+    onEvent(channel, data);
+  });
 
   // On OS X it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
@@ -114,6 +123,13 @@ app.whenReady().then(() => {
     if (BrowserWindow.getAllWindows().length === 0) {
       createWindow();
     }
+  });
+
+  // Update UI, tray manu and stored settings when HUD scale changes
+  onScaleChange(async (scale: Scale) => {
+    await setSetting("scale", scale);
+    mainWindow.webContents.send("scale-change", scale);
+    createMenu();
   });
 
   // Display app in tray

@@ -1,4 +1,4 @@
-import { app, Tray, Menu } from "electron"
+import { app, Tray, Menu, shell } from "electron"
 import path from "path"
 import { settings, Scale } from "./settings"
 
@@ -37,6 +37,10 @@ export function createMenu (): Electron.Menu {
         checked: settings.scale === scale,
         click: () => setScale(scale)
       }))
+    },
+    {
+      label: "About",
+      click: () => shell.openExternal("https://github.com/nemonn/dbd-hook-counter")
     },
     {
       label: "Quit (Alt+Esc)",

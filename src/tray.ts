@@ -1,8 +1,10 @@
-import { app, Tray, Menu, shell } from "electron"
+import { app, Tray, Menu, shell, nativeImage } from "electron"
 import path from "path"
 import { settings, Scale } from "./settings"
 
 export let tray: Tray | undefined
+
+const iconPath = path.join(__dirname, "icon.ico")
 
 const callbacks: {
   onScaleChange: ((scale: Scale) => void)[] 
@@ -18,8 +20,18 @@ function setScale (scale: Scale) {
   callbacks.onScaleChange.forEach(callback => callback(scale))
 }
 
+
+
 export function createMenu (): Electron.Menu {
   const menu = Menu.buildFromTemplate([
+    {
+      label: "Hook Counter",
+      enabled: false,
+      icon: nativeImage.createFromPath(iconPath).resize({ width: 16, height: 16 })
+    },
+    {
+      type: "separator"
+    },
     {
       type: "submenu",
       label: "HUD Scale",
@@ -43,7 +55,11 @@ export function createMenu (): Electron.Menu {
       click: () => shell.openExternal("https://github.com/nemonn/dbd-hook-counter")
     },
     {
-      label: "Quit (Alt+Esc)",
+      type: "separator"
+    },
+    {
+      label: "Quit",
+      accelerator: "Alt+Esc",
       click: () => app.quit()
     }
   ])
@@ -53,7 +69,6 @@ export function createMenu (): Electron.Menu {
 }
 
 export function createTray (): Tray {
-  const iconPath = path.join(__dirname, "icon.ico")
   tray = new Tray(iconPath)
   
   tray.setToolTip("Hook Counter")

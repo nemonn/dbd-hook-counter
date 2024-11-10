@@ -71,9 +71,6 @@ const createWindow = () => {
   }
 };
 
-// Disable UI scaling
-app.commandLine.appendSwitch('force-device-scale-factor', '1');
-
 app.disableHardwareAcceleration();
 
 // This method will be called when Electron has finished

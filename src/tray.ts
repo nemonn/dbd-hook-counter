@@ -39,7 +39,7 @@ export function createMenu (): Electron.Menu {
       }))
     },
     {
-      label: "Quit",
+      label: "Quit (Alt+Esc)",
       click: () => app.quit()
     }
   ])

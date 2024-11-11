@@ -1,6 +1,7 @@
 export interface UI {
   width: number
   height: number
+  scale: number
   size: number
   spacing: number
   left: number
@@ -32,6 +33,7 @@ export function getUi (options: Options): UI {
   return {
     width,
     height,
+    scale: options.scale,
     size: Math.round(height / 100 * 4.63 * options.scale),
     spacing: Math.round(height / 100 * 3.52 * options.scale),
     left: Math.round(width / 100 * 0.83 * options.scale),

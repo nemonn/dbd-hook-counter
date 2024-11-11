@@ -48,8 +48,8 @@ function reset () {
   }
 }
 
-function onLoad ({ scale }: { scale: number }) {
-  ui.value = getUi({ scale })
+function onLoad (settings: { scale: number }) {
+  ui.value = getUi({ scale: settings.scale })
 }
 
 function onScaleChange (scale: number) {

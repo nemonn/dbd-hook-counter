@@ -4,7 +4,7 @@
   <h1>Hook Counter</h1>
   <p>Keep track of hook stages in Dead by Daylight.</p>
   
-  ### [Download](https://github.com/nemonn/dbd-hook-counter/releases/download/v2.1.0/Hook.Counter.zip)
+  ### [Download](https://github.com/nemonn/dbd-hook-counter/releases/download/1.0.0/Hook.Counter.zip)
   _No installation required._
   
   <img src="https://github.com/nemonn/dbd-hook-counter/blob/main/Screenshots/1.png" alt="Screenshot"/>

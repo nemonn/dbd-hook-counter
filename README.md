@@ -5,7 +5,7 @@
   <p>Keep track of hook stages in Dead by Daylight.</p>
   
   ### [Download](https://github.com/nemonn/dbd-hook-counter/releases/download/1.0.0/Hook.Counter.zip)
-  _No installation required._
+  _No installation required_
   
   <img src="https://github.com/nemonn/dbd-hook-counter/blob/main/Screenshots/1.png" alt="Screenshot"/>
 
@@ -18,7 +18,7 @@
 - Quit with `ALT`+`ESC`
 
 ## Resolution & HUD scale
-Works on all resolutions. Your in-game HUD scale can be selected in the tray menu.
+Works with all resolutions. Your in-game HUD scale can be selected in the tray menu.
 ![Tray Menu](https://github.com/nemonn/dbd-hook-counter/blob/main/Screenshots/2.png)
 
 ## Is it safe?

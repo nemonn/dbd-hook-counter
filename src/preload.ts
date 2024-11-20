@@ -7,6 +7,6 @@ type IpcRendererCallback = (event: IpcRendererEvent, ...args: any[]) => void
 contextBridge.exposeInMainWorld('electron', {
   ipcRenderer: {
     on: (channel: string, func: IpcRendererCallback) => ipcRenderer.on(channel, (event, ...args) => func(event, ...args)),
-    send: (channel: string, data?: any) => ipcRenderer.send(channel, data)
+    invoke: (channel: string, ...args: any[]) => ipcRenderer.invoke(channel, ...args)
   }
 });

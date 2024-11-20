@@ -1,4 +1,4 @@
-import { app, BrowserWindow, globalShortcut } from "electron";
+import { app, BrowserWindow, globalShortcut, ipcMain } from "electron";
 import path from "path";
 import { createTray, onScaleChange, createMenu } from "./tray";
 import { settings, loadSettings, setSetting, Scale } from "./settings";
@@ -83,35 +83,27 @@ app.whenReady().then(async () => {
   if (!mainWindow) return
 
   globalShortcut.register("Alt+1", () => {
-    mainWindow.webContents.send("add-stage", 1);
+    mainWindow.webContents.send("addStage", 1);
   });
 
   globalShortcut.register("Alt+2", () => {
-    mainWindow.webContents.send("add-stage", 2);
+    mainWindow.webContents.send("addStage", 2);
   });
 
   globalShortcut.register("Alt+3", () => {
-    mainWindow.webContents.send("add-stage", 3);
+    mainWindow.webContents.send("addStage", 3);
   });
 
   globalShortcut.register("Alt+4", () => {
-    mainWindow.webContents.send("add-stage", 4);
+    mainWindow.webContents.send("addStage", 4);
   });
 
   globalShortcut.register("Alt+0", () => {
-    mainWindow.webContents.send("reset-stages");
+    mainWindow.webContents.send("resetStages");
   });
 
   globalShortcut.register("Alt+Escape", () => {
     app.quit();
-  });
-
-  mainWindow.webContents.on("did-finish-load", () => {
-    mainWindow.webContents.send("load", settings);
-  });
-
-  mainWindow.webContents.on("ipc-message", (event, channel, data) => {
-    onEvent(channel, data);
   });
 
   // On OS X it's common to re-create a window in the app when the
@@ -125,7 +117,7 @@ app.whenReady().then(async () => {
   // Update UI, tray manu and stored settings when HUD scale changes
   onScaleChange(async (scale: Scale) => {
     await setSetting("scale", scale);
-    mainWindow.webContents.send("scale-change", scale);
+    mainWindow.webContents.send("scaleChange", scale);
     createMenu();
   });
 
@@ -147,8 +139,6 @@ app.on("window-all-closed", () => {
   }
 });
 
-const onEvent = (event: string, data: any) => {
-  if (event === "close-app") {
-    app.quit();
-  }
-}
+ipcMain.handle("getSettings", () => {
+  return settings;
+});

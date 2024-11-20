@@ -5,7 +5,7 @@ declare global {
     electron: {
       ipcRenderer: {
         on(channel: string, func: (...args: any[]) => void): void;
-        send(channel: string, data?: any): void;
+        invoke(channel: string, ...args: any[]): Promise<any>;
       };
     };
   }

@@ -24,7 +24,7 @@
 <script setup lang="ts">
 import { reactive, ref } from "vue"
 import Player from "./components/Player.vue"
-import { getUi, UI } from "./helpers/ui"
+import { buildUi, UI } from "./helpers/ui"
 import on from "./helpers/on"
 
 const ui = ref<UI | undefined>()
@@ -48,18 +48,17 @@ function reset () {
   }
 }
 
-function onLoad (settings: { scale: number }) {
-  ui.value = getUi({ scale: settings.scale })
+async function createUi () {
+  const uiState = await buildUi()
+  ui.value = uiState
+  return uiState
 }
 
-function onScaleChange (scale: number) {
-  ui.value = getUi({ scale })
-}
+createUi()
 
-on("load", onLoad)
-on("add-stage", addStage)
-on("reset-stages", reset)
-on("scale-change", onScaleChange)
+on("addStage", addStage)
+on("resetStages", reset)
+on("scaleChange", createUi)
 
 </script>
 

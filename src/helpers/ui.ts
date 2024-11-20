@@ -1,3 +1,5 @@
+import { getSettings } from "./settings"
+
 export interface UI {
   width: number
   height: number
@@ -8,11 +10,7 @@ export interface UI {
   bottom: number
 }
 
-interface Options {
-  scale: number
-}
-
-export function getUi (options: Options): UI {
+export async function buildUi (): Promise<UI> {
   const { width, height } = forceAspectRatio({
     width: screen.width,
     height: screen.height,
@@ -30,14 +28,17 @@ export function getUi (options: Options): UI {
     bottom: 337
   */
 
+  const settings = await getSettings()
+  const scale = settings.scale || 1
+
   return {
     width,
     height,
-    scale: options.scale,
-    size: Math.round(height / 100 * 4.63 * options.scale),
-    spacing: Math.round(height / 100 * 3.52 * options.scale),
-    left: Math.round(width / 100 * 0.83 * options.scale),
-    bottom: Math.round(height / 100 * 31.2 * options.scale)
+    scale,
+    size: Math.round(height / 100 * 4.63 * scale),
+    spacing: Math.round(height / 100 * 3.52 * scale),
+    left: Math.round(width / 100 * 0.83 * scale),
+    bottom: Math.round(height / 100 * 31.2 * scale)
   }
 }
 

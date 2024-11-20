@@ -20,8 +20,6 @@ function setScale (scale: Scale) {
   callbacks.onScaleChange.forEach(callback => callback(scale))
 }
 
-
-
 export function createMenu (): Electron.Menu {
   const menu = Menu.buildFromTemplate([
     {

@@ -1,11 +1,11 @@
 import { app, BrowserWindow, globalShortcut, ipcMain } from "electron";
 import path from "path";
 import { createTray, onScaleChange, createMenu } from "./tray";
-import { settings, loadSettings, setSetting, Scale } from "./settings";
+import { settings, loadSettings, setSetting } from "./settings";
 
 const DEBUG = false;
 
-const getOptions = () => ({
+const options = {
   webPreferences: {
     preload: path.join(__dirname, "preload.js"),
     zoomFactor: 1.0
@@ -31,7 +31,7 @@ const getOptions = () => ({
     backgroundColor: "rgb(30,30,30)"
   
   })
-});
+};
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling
 if (require("electron-squirrel-startup")) {
@@ -42,7 +42,7 @@ let mainWindow: BrowserWindow | undefined;
 
 const createWindow = () => {
   // Create the browser window
-  mainWindow = new BrowserWindow(getOptions());
+  mainWindow = new BrowserWindow(options);
 
   if (DEBUG) {
 

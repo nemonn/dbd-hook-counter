@@ -1,14 +1,14 @@
 <template>
   <div
     class="player"
-    :data-stage="props.stage"
+    :data-stage="stage"
   >
     <div class="border">
       <BorderIcon/>
     </div>
 
     <div class="stage">
-      <SkullIcon v-if="props.stage === 3"/>
+      <SkullIcon v-if="stage === 3"/>
       <HooksIcon v-else/>
     </div>
   </div>
@@ -23,7 +23,7 @@ interface Props {
   stage: number
 }
 
-const props = defineProps<Props>()
+defineProps<Props>()
 
 </script>
 

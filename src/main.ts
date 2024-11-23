@@ -1,4 +1,4 @@
-import { app, BrowserWindow, globalShortcut, ipcMain } from "electron";
+import { app, BrowserWindow, globalShortcut, ipcMain, screen } from "electron";
 import path from "path";
 import { createTray, onScaleChange, createMenu } from "./tray";
 import { settings, loadSettings, setSetting } from "./settings";
@@ -15,7 +15,6 @@ const options = {
   
   ...(!DEBUG ? {
 
-    fullscreen: true,
     hasShadow: false,
     maximizable: false,
     minimizable: false,
@@ -50,6 +49,8 @@ const createWindow = () => {
     mainWindow.webContents.openDevTools();
 
   } else {
+    // Set fullscreen
+    mainWindow.setBounds(screen.getPrimaryDisplay().bounds);
 
     // Set always on top
     mainWindow.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });

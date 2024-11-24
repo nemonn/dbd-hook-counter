@@ -2,6 +2,7 @@ import { app, BrowserWindow, globalShortcut, ipcMain } from "electron";
 import path from "path";
 import { createTray, onScaleChange, createMenu } from "./tray";
 import { settings, loadSettings, setSetting } from "./settings";
+import { Scale } from "./types";
 
 const DEBUG = false;
 

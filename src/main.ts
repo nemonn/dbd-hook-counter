@@ -99,6 +99,22 @@ app.whenReady().then(async () => {
     mainWindow.webContents.send("addStage", 4);
   });
 
+  globalShortcut.register("Ctrl+1", () => {
+    mainWindow.webContents.send("removeStage", 1);
+  });
+
+  globalShortcut.register("Ctrl+2", () => {
+    mainWindow.webContents.send("removeStage", 2);
+  });
+
+  globalShortcut.register("Ctrl+3", () => {
+    mainWindow.webContents.send("removeStage", 3);
+  });
+
+  globalShortcut.register("Ctrl+4", () => {
+    mainWindow.webContents.send("removeStage", 4);
+  });
+
   globalShortcut.register("Alt+0", () => {
     mainWindow.webContents.send("resetStages");
   });

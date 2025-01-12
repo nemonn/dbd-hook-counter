@@ -42,6 +42,11 @@ function addStage (player: string) {
   players[player] = stage
 }
 
+function removeStage (player: string) {
+  const stage = Math.max(players[player] - 1, 0)
+  players[player] = stage
+}
+
 function reset () {
   for (const player in players) {
     players[player] = 0
@@ -57,6 +62,7 @@ async function createUi () {
 createUi()
 
 on("addStage", addStage)
+on("removeStage", removeStage)
 on("resetStages", reset)
 on("scaleChange", createUi)
 

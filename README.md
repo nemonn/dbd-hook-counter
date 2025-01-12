@@ -13,9 +13,10 @@
 </div>
 
 ## How to use
-- Add hook stage with `ALT`+`1`/`2`/`3`/`4`
-- Reset all hook stages with `ALT`+`0`
-- Quit with `ALT`+`ESC`
+- Add hook stage with `Alt`+`1`/`2`/`3`/`4`
+- Reset all hook stages with `Alt`+`0`
+- Remove hook stage with `Alt`+`Shift`+`1`/`2`/`3`/`4`
+- Quit with `Alt`+`Esc`
 
 ## Resolution & HUD scale
 Works with all resolutions. Your in-game HUD scale can be selected in the tray menu.

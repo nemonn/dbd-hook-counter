@@ -43,7 +43,7 @@ defineProps<Props>()
   position: absolute;
   inset: 0;
   z-index: 1;
-  fill: rgba(0,0,0,0.1);
+  fill: rgba(0,0,0,0.08);
   transition: fill 0.125s;
   overflow: hidden;
 }
@@ -56,15 +56,11 @@ defineProps<Props>()
 
 .player .stage svg {
   height: calc(60 * var(--size) / 100);
-  fill: rgba(255,255,255,0);
+  fill: black;
   transition: fill 0.125s;
   stroke: white;
   stroke-width: 52;
   stroke-opacity: 0.15;
-}
-
-.player .stage svg {
-  fill: black;
 }
 
 .player[data-stage="1"] .stage svg path:nth-child(1) {
@@ -77,9 +73,9 @@ defineProps<Props>()
 
 .player[data-stage="3"] .stage svg {
   fill: rgba(255,255,255,0.75);
-  height: calc(68 * var(--size) / 100);
+  height: calc(70 * var(--size) / 100);
   stroke: none;
-  transform: translateX(-1%);
+  transform: translateX(-3%);
 }
 
 .player[data-stage="3"] .border {

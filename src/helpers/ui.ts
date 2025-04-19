@@ -18,15 +18,14 @@ export async function buildUi (): Promise<UI> {
     y: 9
   })
 
-  /*
-    FHD (100%)
-    width: 1920
-    height: 1080
-    size: 50
-    spacing: 38
-    left: 16
-    bottom: 337
-  */
+  const ui = {
+    width: 1920,
+    height: 1080,
+    size: 46,
+    spacing: 42,
+    left: 18,
+    bottom: 339
+  }
 
   const settings = await getSettings()
   const scale = settings.scale || 1
@@ -35,10 +34,10 @@ export async function buildUi (): Promise<UI> {
     width,
     height,
     scale,
-    size: Math.round(height / 100 * 4.63 * scale),
-    spacing: Math.round(height / 100 * 3.52 * scale),
-    left: Math.round(width / 100 * 0.83 * scale),
-    bottom: Math.round(height / 100 * 31.2 * scale)
+    size: height / 100 * (ui.size * 100 / ui.height) * scale,
+    spacing: height / 100 * (ui.spacing * 100 / ui.height) * scale,
+    left: width / 100 * (ui.left * 100 / ui.width) * scale,
+    bottom: height / 100 * (ui.bottom * 100 / ui.height) * scale
   }
 }
 

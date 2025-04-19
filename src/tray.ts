@@ -1,6 +1,7 @@
 import { app, Tray, Menu, shell, nativeImage } from "electron"
 import path from "path"
-import { settings, Scale } from "./settings"
+import { settings } from "./settings"
+import { Scale } from "./types"
 
 export let tray: Tray | undefined
 
@@ -67,11 +68,8 @@ export function createMenu (): Electron.Menu {
 }
 
 export function createTray (): Tray {
-  tray = new Tray(iconPath)
-  
+  tray = new Tray(iconPath) 
   tray.setToolTip("Hook Counter")
-  
   createMenu()
-  
   return tray
 }

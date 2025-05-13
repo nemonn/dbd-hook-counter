@@ -84,32 +84,32 @@ app.whenReady().then(async () => {
   if (!mainWindow) return
 
   for (const i of [1, 2, 3, 4]) {
-    globalShortcut.register(`Alt+${i}`, () => {
+    globalShortcut.register(`${i}`, () => {
       mainWindow.webContents.send("addStage", i);
     });
 
-    globalShortcut.register(`Alt+Num${i}`, () => {
+    globalShortcut.register(`Num${i}`, () => {
       mainWindow.webContents.send("addStage", i);
     });
 
-    globalShortcut.register(`Alt+Shift+${i}`, () => {
+    globalShortcut.register(`Shift+${i}`, () => {
       mainWindow.webContents.send("removeStage", i);
     });
 
-    globalShortcut.register(`Alt+Shift+Num${i}`, () => {
+    globalShortcut.register(`Shift+Num${i}`, () => {
       mainWindow.webContents.send("removeStage", i);
     });
   }
 
-  globalShortcut.register("Alt+0", () => {
+  globalShortcut.register("0", () => {
     mainWindow.webContents.send("resetStages");
   });
 
-  globalShortcut.register("Alt+Num0", () => {
+  globalShortcut.register("Num0", () => {
     mainWindow.webContents.send("resetStages");
   });
 
-  globalShortcut.register("Alt+Escape", () => {
+  globalShortcut.register("Shift+Escape", () => {
     app.quit();
   });
 
